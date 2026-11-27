@@ -8,6 +8,8 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
       - name: Build native Bluetooth helper
         shell: pwsh
         run: |
