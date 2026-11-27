@@ -1,0 +1,29 @@
+name: Build FIFINE D6 Bluetooth Toggle
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build native Bluetooth helper
+        shell: pwsh
+        run: |
+          msbuild native/BluetoothNative.vcxproj /m /p:Configuration=Release /p:Platform=x64 /p:OutDir="$env:GITHUB_WORKSPACE\stage\BluetoothToggle.sdPlugin\plugin\bin\"
+      - name: Assemble plugin
+        shell: pwsh
+        run: |
+          $root = "$env:GITHUB_WORKSPACE\stage\BluetoothToggle.sdPlugin"
+          New-Item -ItemType Directory -Force "$root\plugin\images" | Out-Null
+          Copy-Item plugin\manifest.json "$root\manifest.json"
+          Copy-Item plugin\index.js "$root\plugin\index.js"
+          Copy-Item plugin\images\* "$root\plugin\images\"
+          if (!(Test-Path "$root\plugin\bin\BluetoothNative.exe")) { throw "Native helper was not built" }
+          Compress-Archive -Path $root -DestinationPath "$env:GITHUB_WORKSPACE\Bluetooth-Toggle-D6.zip" -Force
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Bluetooth-Toggle-D6
+          path: Bluetooth-Toggle-D6.zip
+          if-no-files-found: error
