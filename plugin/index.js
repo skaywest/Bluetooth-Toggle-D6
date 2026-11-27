@@ -190,8 +190,11 @@ function connect() {
       const end = handshakeBuffer.indexOf('\r\n\r\n');
       if (end < 0) return;
       const headers = handshakeBuffer.subarray(0, end).toString('latin1');
-      if (!/^HTTP\/1\.1 101\b/m.test(headers) ||
-          !new RegExp('^Sec-WebSocket-Accept:\\s*' + expectedAccept.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + '\\s*$', 'im').test(headers)) {
+      const headerLines = headers.split('\\r\\n');
+      const statusOk = /^HTTP\\/1\\.1 101\\b/i.test(headerLines[0] || '');
+      const acceptLine = headerLines.find(line => /^Sec-WebSocket-Accept:/i.test(line));
+      const acceptValue = acceptLine ? acceptLine.substring(acceptLine.indexOf(':') + 1).trim() : '';
+      if (!statusOk || acceptValue !== expectedAccept) {
         console.error('FIFINE WebSocket handshake rejected:', headers.split('\r\n')[0]);
         socket.destroy();
         return;
