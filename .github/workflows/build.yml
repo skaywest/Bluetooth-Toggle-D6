@@ -23,6 +23,7 @@ jobs:
           Copy-Item plugin\index.js "$root\plugin\index.js"
           Copy-Item plugin\images\* "$root\plugin\images\"
           if (!(Test-Path "$root\plugin\bin\BluetoothNative.exe")) { throw "Native helper was not built" }
+          Get-ChildItem "$root\plugin\bin" -Include *.pdb,*.ilk -Recurse | Remove-Item -Force
           Compress-Archive -Path $root -DestinationPath "$env:GITHUB_WORKSPACE\Bluetooth-Toggle-D6.zip" -Force
       - uses: actions/upload-artifact@v4
         with:
