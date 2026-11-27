@@ -1,7 +1,41 @@
 {
- "Actions":[{"Icon":"images/action.svg","Name":"Bluetooth Toggle","States":[{"Image":"images/bt-off.svg","Title":"Bluetooth"}],"Tooltip":"Toggle Windows Bluetooth","UUID":"com.skaywest.bluetooth.toggle"}],
- "Author":"skaywest","CodePath":"plugin/index.js","Description":"Windows Bluetooth toggle without PowerShell or background services",
- "Name":"Bluetooth Toggle","Icon":"images/action.svg","Category":"System","CategoryIcon":"images/action.svg",
- "OS":[{"Platform":"windows","MinimumVersion":"10"}],"SDKVersion":2,"Software":{"MinimumVersion":"6.0"},
- "UUID":"com.skaywest.bluetooth","Version":"2.0.0"
+  "Actions": [
+    {
+      "Icon": "images/action.svg",
+      "Name": "Bluetooth Toggle",
+      "States": [
+        {
+          "Image": "images/bt-off.svg",
+          "TitleAlignment": "bottom",
+          "FontSize": "10"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Переключение системного Bluetooth Windows",
+      "UUID": "com.skaywest.bluetooth.toggle"
+    }
+  ],
+  "Name": "Bluetooth Toggle",
+  "Icon": "images/action.svg",
+  "Category": "System",
+  "CategoryIcon": "images/action.svg",
+  "Description": "Windows Bluetooth toggle without PowerShell or background services",
+  "Author": "skaywest",
+  "Version": "2.1.0",
+  "CodePath": "plugin/index.js",
+  "SDKVersion": 1,
+  "Nodejs": {
+    "Version": "20"
+  },
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "3.10.188.226"
+  },
+  "version": "2.1.0"
 }
