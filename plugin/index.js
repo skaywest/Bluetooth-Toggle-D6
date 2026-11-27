@@ -190,8 +190,8 @@ function connect() {
       const end = handshakeBuffer.indexOf('\r\n\r\n');
       if (end < 0) return;
       const headers = handshakeBuffer.subarray(0, end).toString('latin1');
-      const headerLines = headers.split('\\r\\n');
-      const statusOk = /^HTTP\\/1\\.1 101\\b/i.test(headerLines[0] || '');
+      const headerLines = headers.split('\r\n');
+      const statusOk = (headerLines[0] || '').startsWith('HTTP/1.1 101');
       const acceptLine = headerLines.find(line => /^Sec-WebSocket-Accept:/i.test(line));
       const acceptValue = acceptLine ? acceptLine.substring(acceptLine.indexOf(':') + 1).trim() : '';
       if (!statusOk || acceptValue !== expectedAccept) {
